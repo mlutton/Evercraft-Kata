@@ -1,0 +1,8 @@
+
+*.ncrunchsolution
+/EverCraft-Kata.suo
+/EverCraft/obj
+/EverCraft/bin/Release
+/EverCraft/bin/Debug
+/_ReSharper.EverCraft-Kata
+/_NCrunch_EverCraft-Kata
