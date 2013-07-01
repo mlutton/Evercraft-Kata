@@ -99,14 +99,14 @@ namespace Tests.EverCraft
         }
 
         [Test]
-        public void CharacterIsAlivesWhenHitPointsAreGreaterThanZero()
+        public void CharacterIsAliveWhenHitPointsAreGreaterThanZero()
         {
             var attacker = new Character();
             var defender = new Character();
 
             defender.HitPoints = 1;
 
-            Assert.IsFalse(defender.IsDead());
+            Assert.IsTrue(defender.IsAlive());
         }
 
         [Test]
@@ -117,7 +117,7 @@ namespace Tests.EverCraft
 
             defender.HitPoints = 0;
 
-            Assert.IsTrue(defender.IsDead());
+            Assert.IsFalse(defender.IsAlive());
         }
 
         [TestCase(AbilityTypes.Strength, Character.AbilityMinimumValue)]

@@ -60,9 +60,9 @@ namespace EverCraft
             return 0;
         }
 
-        public bool IsDead()
+        public bool IsAlive()
         {
-            if (HitPoints > 0) return false;
+            if (HitPoints <= 0) return false;
             return true;
         }
 
