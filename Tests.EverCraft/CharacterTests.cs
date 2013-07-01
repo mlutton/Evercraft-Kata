@@ -119,5 +119,29 @@ namespace Tests.EverCraft
 
             Assert.IsTrue(defender.IsDead());
         }
+
+        [TestCase(AbilityTypes.Strength, Character.AbilityMinimumValue)]
+        [TestCase(AbilityTypes.Strength, Character.AbilityMaximumValue)]
+        [TestCase(AbilityTypes.Charisma, Character.AbilityMinimumValue)]
+        [TestCase(AbilityTypes.Constitution, Character.AbilityMinimumValue)]
+        [TestCase(AbilityTypes.Dexterity, Character.AbilityMinimumValue)]
+        [TestCase(AbilityTypes.Intelligence, Character.AbilityMinimumValue)]
+        [TestCase(AbilityTypes.Wisdom, Character.AbilityMinimumValue)]
+        public void CharactersHaveAbilitiesSetWithinScopeCanBeSet(AbilityTypes abilityType, int abilityValue)
+        {
+            var character = new Character();
+            character.SetAbility(abilityType, abilityValue);
+            Assert.AreEqual(character.GetAbility(abilityType), abilityValue);
+        }
+
+        [TestCase(AbilityTypes.Strength, Character.AbilityMinimumValue-1)]
+        [TestCase(AbilityTypes.Strength, Character.AbilityMaximumValue+1)]
+        [ExpectedException(typeof(InvalidAbilityExceptionType))]
+        public void CharactersHaveAbilitiesSetWithinScopeThrows(AbilityTypes abilityType, int abilityValue)
+        {
+            var character = new Character();
+            character.SetAbility(abilityType, abilityValue);
+            Assert.AreEqual(character.GetAbility(abilityType), abilityValue);
+        }
     }
 }
