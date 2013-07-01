@@ -26,5 +26,21 @@ namespace Tests.EverCraft
 
             Assert.AreEqual(AlignmentTypes.Good, character.Alignment);
         }
+
+        [Test]
+        public void CharacterHasDefaultArmorClass()
+        {
+            var character = new Character();
+
+            Assert.AreEqual(Character.DefaultArmorClass, character.ArmorClass);
+        }
+
+        [Test]
+        public void CharacterHasADefaultSetOfHitPoints()
+        {
+            var character = new Character();
+
+            Assert.AreEqual(Character.DefaultHitPoints, character.HitPoints);
+        }
     }
 }
