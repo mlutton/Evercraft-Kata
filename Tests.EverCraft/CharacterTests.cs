@@ -16,5 +16,15 @@ namespace Tests.EverCraft
 
             Assert.AreEqual("Faceman", character.Name);
         }
+
+        [Test]
+        public void CharacterShouldSupportGettingAndSettingAlignment()
+        {
+            var character = new Character();
+
+            character.Alignment = AlignmentTypes.Good;
+
+            Assert.AreEqual(AlignmentTypes.Good, character.Alignment);
+        }
     }
 }

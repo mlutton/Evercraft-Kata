@@ -6,3 +6,13 @@
 /EverCraft/bin/Debug
 /_ReSharper.EverCraft-Kata
 /_NCrunch_EverCraft-Kata
+
+/EverCraft-Kata.ncrunchsolution.user
+/EverCraft-Kata.v11.suo
+
+/EverCraft/bin/AutoTest.Net
+
+/Tests.EverCraft/bin/AutoTest.Net
+/Tests.EverCraft/bin/Debug
+
+/Tests.EverCraft/obj/Debug
