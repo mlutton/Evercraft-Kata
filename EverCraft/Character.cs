@@ -24,5 +24,10 @@ namespace EverCraft
         public AlignmentTypes Alignment  { get; set; }
         public int ArmorClass { get; set; }
         public int HitPoints { get; set; }
+
+        public bool Attacks(int armorClass, int roll)
+        {
+            return roll >= armorClass;
+        }
     }
 }

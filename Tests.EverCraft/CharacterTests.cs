@@ -42,5 +42,38 @@ namespace Tests.EverCraft
 
             Assert.AreEqual(Character.DefaultHitPoints, character.HitPoints);
         }
+
+        [Test]
+        public void CharacterHitsWithAttackThatMeetsArmorClass()
+        {
+            var attacker = new Character();
+            var defender = new Character();
+
+            var dieRoll = defender.ArmorClass;
+
+            Assert.IsTrue(attacker.Attacks(defender.ArmorClass, dieRoll));
+        }
+
+        [Test]
+        public void CharacterHitsWithAttackThatMeetsArmorClass2()
+        {
+            var attacker = new Character();
+            var defender = new Character();
+
+            var dieRoll = defender.ArmorClass + 1;
+
+            Assert.IsTrue(attacker.Attacks(defender.ArmorClass, dieRoll));
+        }
+
+        [Test]
+        public void CharacterMissesWithAttackThaIsLessThanArmorClass()
+        {
+            var attacker = new Character();
+            var defender = new Character();
+
+            var dieRoll = defender.ArmorClass - 1;
+
+            Assert.IsFalse(attacker.Attacks(defender.ArmorClass, dieRoll));
+        }
     }
 }
