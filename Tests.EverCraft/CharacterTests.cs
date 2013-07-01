@@ -51,18 +51,18 @@ namespace Tests.EverCraft
 
             var dieRoll = defender.ArmorClass;
 
-            Assert.IsTrue(attacker.Attacks(defender.ArmorClass, dieRoll));
+            Assert.Greater(attacker.Attacks(defender.ArmorClass, dieRoll), 0);
         }
 
         [Test]
-        public void CharacterHitsWithAttackThatMeetsArmorClass2()
+        public void CharacterHitsWithAttackThatIsGreaterThanArmorClass()
         {
             var attacker = new Character();
             var defender = new Character();
 
             var dieRoll = defender.ArmorClass + 1;
 
-            Assert.IsTrue(attacker.Attacks(defender.ArmorClass, dieRoll));
+            Assert.Greater(attacker.Attacks(defender.ArmorClass, dieRoll), 0);
         }
 
         [Test]
@@ -73,7 +73,51 @@ namespace Tests.EverCraft
 
             var dieRoll = defender.ArmorClass - 1;
 
-            Assert.IsFalse(attacker.Attacks(defender.ArmorClass, dieRoll));
+            Assert.AreEqual(attacker.Attacks(defender.ArmorClass, dieRoll), 0);
+        }
+
+        [Test]
+        public void CharacterDefaultsDamangeOnNormalHit()
+        {
+            var attacker = new Character();
+            var defender = new Character();
+
+            var dieRoll = defender.ArmorClass;
+
+            Assert.AreEqual(attacker.Attacks(defender.ArmorClass, dieRoll), Character.DefaultDamage);
+        }
+
+        [Test]
+        public void CharacterDoublesDamageOnCriticalHit()
+        {
+            var attacker = new Character();
+            var defender = new Character();
+
+            var dieRoll = 20;
+
+            Assert.AreEqual(attacker.Attacks(defender.ArmorClass, dieRoll), Character.DefaultDamage*2);
+        }
+
+        [Test]
+        public void CharacterIsAlivesWhenHitPointsAreGreaterThanZero()
+        {
+            var attacker = new Character();
+            var defender = new Character();
+
+            defender.HitPoints = 1;
+
+            Assert.IsFalse(defender.IsDead());
+        }
+
+        [Test]
+        public void CharacterDiesWhenHitPointsAreZero()
+        {
+            var attacker = new Character();
+            var defender = new Character();
+
+            defender.HitPoints = 0;
+
+            Assert.IsTrue(defender.IsDead());
         }
     }
 }
