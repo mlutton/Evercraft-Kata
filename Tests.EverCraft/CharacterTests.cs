@@ -136,8 +136,8 @@ namespace Tests.EverCraft
 
         [TestCase(AbilityTypes.Strength, Character.AbilityMinimumValue-1)]
         [TestCase(AbilityTypes.Strength, Character.AbilityMaximumValue+1)]
-        [ExpectedException(typeof(InvalidAbilityExceptionType))]
-        public void CharactersHaveAbilitiesSetWithinScopeThrows(AbilityTypes abilityType, int abilityValue)
+        [ExpectedException(typeof(InvalidAbilityException))]
+        public void CharactersHaveAbilitiesSetOutsideScopeThrows(AbilityTypes abilityType, int abilityValue)
         {
             var character = new Character();
             character.SetAbility(abilityType, abilityValue);

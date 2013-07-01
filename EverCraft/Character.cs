@@ -20,7 +20,7 @@ namespace EverCraft
         Charisma
     }
 
-    public class InvalidAbilityExceptionType : ApplicationException
+    public class InvalidAbilityException : ApplicationException
     {
         
     }
@@ -69,10 +69,10 @@ namespace EverCraft
         public void SetAbility(AbilityTypes abilityType, int abilityValue)
         {
             if (abilityValue < AbilityMinimumValue)
-                throw new InvalidAbilityExceptionType();
+                throw new InvalidAbilityException();
 
             if (abilityValue > AbilityMaximumValue)
-                throw new InvalidAbilityExceptionType();
+                throw new InvalidAbilityException();
 
             if (_abilities.ContainsKey(abilityType))
             {
