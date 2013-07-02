@@ -43,7 +43,11 @@ namespace EverCraft
         {
             if (roll == 20)
             {
-                return DefaultDamage*2;
+                var baseDamage = DefaultDamage + Strength.GetModifier();
+
+                if (baseDamage < 1) return DefaultDamage;
+
+                return baseDamage*2;
             }
 
             var modifiedRoll = roll + Strength.GetModifier();

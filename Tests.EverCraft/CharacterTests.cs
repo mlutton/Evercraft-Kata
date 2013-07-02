@@ -159,5 +159,21 @@ namespace Tests.EverCraft
 
             Assert.LessOrEqual(expectedDamage, attacker.Attacks(defender.ArmorClass, alwaysHitRoll));
         }
+
+        [TestCase(1, 1)]
+        [TestCase(10, 2)]
+        [TestCase(12, 4)]
+        [TestCase(19, 10)]
+        public void CharactersStrengthAffectsCriticalDamageAmmount(int strengthValue, int expectedDamage)
+        {
+            var attacker = new Character();
+            var defender = new Character();
+
+            attacker.Strength.Set(strengthValue);
+
+            const int criticalHit = 20;
+
+            Assert.AreEqual(expectedDamage, attacker.Attacks(defender.ArmorClass, criticalHit));
+        }
     }
 }
