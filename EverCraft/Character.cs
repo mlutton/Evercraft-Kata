@@ -36,7 +36,23 @@ namespace EverCraft
 
         public String Name { get; set; }
         public AlignmentTypes Alignment  { get; set; }
-        public int ArmorClass { get; set; }
+
+        private int _armorClass = DefaultArmorClass;
+
+        public int ArmorClass
+        {
+            get
+            {
+                var baseArmorClass = _armorClass + Dexterity.GetModifier();
+
+                return baseArmorClass;
+            }
+            set
+            {
+                _armorClass = value;
+            }
+        }
+
         public int HitPoints { get; set; }
 
         public int Attacks(int armorClass, int roll)

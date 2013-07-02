@@ -175,5 +175,18 @@ namespace Tests.EverCraft
 
             Assert.AreEqual(expectedDamage, attacker.Attacks(defender.ArmorClass, criticalHit));
         }
+
+        [TestCase(1, 5)]
+        [TestCase(9, 9)]
+        [TestCase(11, 10)]
+        [TestCase(20, 15)]
+        public void CharactersDexterityAffectsArmorClass(int dexterityValue, int expectedArmorClass)
+        {
+            var defender = new Character();
+
+            defender.Dexterity.Set(dexterityValue);
+
+            Assert.AreEqual(expectedArmorClass, defender.ArmorClass);
+        }
     }
 }
