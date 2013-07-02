@@ -57,13 +57,7 @@ namespace EverCraft
         {
             get
             {
-                if (_hitPoints == 0) return 0;
-
-                var hitPoints = _hitPoints + Constitution.GetModifier();
-
-                if (hitPoints < 1) return 1;
-
-                return hitPoints;
+                return _hitPoints == 0 ? 0 : GetHitPointsWithModifier();
             }
             set
             {
@@ -71,28 +65,50 @@ namespace EverCraft
             }
         }
 
+        private int GetHitPointsWithModifier()
+        {
+            var hitPoints = _hitPoints + Constitution.GetModifier();
+
+            if (hitPoints < 1) return 1;
+
+            return hitPoints;
+        }
+
         public int Attacks(int armorClass, int roll)
         {
             if (roll == 20)
             {
-                var baseDamage = DefaultDamage + Strength.GetModifier();
-
-                if (baseDamage < 1) return DefaultDamage;
-
-                return baseDamage*2;
+                return GetCriticalDamageAmount(DefaultDamage, Strength.GetModifier());
             }
 
-            var modifiedRoll = roll + Strength.GetModifier();
-
-            if (modifiedRoll >= armorClass)
+            if (GetModifiedRoll(roll, Strength.GetModifier()) >= armorClass)
             {
-                var potentialDamage = DefaultDamage + Strength.GetModifier();
-
-                if (potentialDamage < DefaultDamage) return DefaultDamage;
-                return potentialDamage;
+                return GetDamageAmount(DefaultDamage, Strength.GetModifier());
             }
 
             return 0;
+        }
+
+        private static int GetDamageAmount(int defaultDamage, int strengthModifier)
+        {
+            var potentialDamage = defaultDamage + strengthModifier;
+
+            if (potentialDamage < defaultDamage) return defaultDamage;
+            return potentialDamage;
+        }
+
+        private static int GetModifiedRoll(int roll, int strengthModifier)
+        {
+            return roll + strengthModifier;
+        }
+
+        private static int GetCriticalDamageAmount(int defaultDamage, int strengthModifier)
+        {
+            var baseDamage = defaultDamage + strengthModifier;
+
+            if (baseDamage < 1) return defaultDamage;
+
+            return baseDamage*2;
         }
 
         public bool IsAlive()
