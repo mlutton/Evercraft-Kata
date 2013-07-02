@@ -43,9 +43,7 @@ namespace EverCraft
         {
             get
             {
-                var baseArmorClass = _armorClass + Dexterity.GetModifier();
-
-                return baseArmorClass;
+                return _armorClass + Dexterity.GetModifier();
             }
             set
             {
@@ -53,7 +51,25 @@ namespace EverCraft
             }
         }
 
-        public int HitPoints { get; set; }
+        private int _hitPoints = DefaultHitPoints;
+
+        public int HitPoints
+        {
+            get
+            {
+                if (_hitPoints == 0) return 0;
+
+                var hitPoints = _hitPoints + Constitution.GetModifier();
+
+                if (hitPoints < 1) return 1;
+
+                return hitPoints;
+            }
+            set
+            {
+                _hitPoints = value;
+            }
+        }
 
         public int Attacks(int armorClass, int roll)
         {

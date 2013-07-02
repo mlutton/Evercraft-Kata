@@ -188,5 +188,19 @@ namespace Tests.EverCraft
 
             Assert.AreEqual(expectedArmorClass, defender.ArmorClass);
         }
+
+        [TestCase(1, 1)]
+        [TestCase(2, 1)]
+        [TestCase(8, 4)]
+        [TestCase(11, 5)]
+        [TestCase(20, 10)]
+        public void CharactersConstitutionAffectsHitPoints(int constitutionValue, int expectedDefaultHitPoints)
+        {
+            var defender = new Character();
+
+            defender.Constitution.Set(constitutionValue);
+
+            Assert.AreEqual(expectedDefaultHitPoints, defender.HitPoints);
+        }
     }
 }
