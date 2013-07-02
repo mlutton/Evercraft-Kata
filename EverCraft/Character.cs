@@ -45,9 +45,15 @@ namespace EverCraft
             {
                 return DefaultDamage*2;
             }
-            else if (roll >= armorClass)
+
+            var modifiedRoll = roll + Strength.GetModifier();
+
+            if (modifiedRoll >= armorClass)
             {
-                return DefaultDamage;
+                var potentialDamage = DefaultDamage + Strength.GetModifier();
+
+                if (potentialDamage < DefaultDamage) return DefaultDamage;
+                return potentialDamage;
             }
 
             return 0;

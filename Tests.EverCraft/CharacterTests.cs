@@ -100,7 +100,6 @@ namespace Tests.EverCraft
         [Test]
         public void CharacterIsAliveWhenHitPointsAreGreaterThanZero()
         {
-            var attacker = new Character();
             var defender = new Character();
 
             defender.HitPoints = 1;
@@ -111,12 +110,54 @@ namespace Tests.EverCraft
         [Test]
         public void CharacterDiesWhenHitPointsAreZero()
         {
-            var attacker = new Character();
             var defender = new Character();
 
             defender.HitPoints = 0;
 
             Assert.IsFalse(defender.IsAlive());
+        }
+
+        
+        [TestCase(2, 14)]
+        [TestCase(10, 10)]
+        [TestCase(18, 6)]
+        public void CharactersStrengthAffectsSuccessfulHitRoll(int strengthValue, int dieRoll)
+        {
+            var attacker = new Character();
+            var defender = new Character();
+
+            attacker.Strength.Set(strengthValue);
+
+            Assert.LessOrEqual(Character.DefaultDamage, attacker.Attacks(defender.ArmorClass, dieRoll) );
+        }
+
+        [TestCase(1, 14)]
+        [TestCase(10, 9)]
+        [TestCase(19, 5)]
+        public void CharactersStrengthAffectsMissHitRoll(int strengthValue, int dieRoll)
+        {
+            var attacker = new Character();
+            var defender = new Character();
+
+            attacker.Strength.Set(strengthValue);
+
+            Assert.AreEqual(0, attacker.Attacks(defender.ArmorClass, dieRoll));
+        }
+
+        [TestCase(1, 1)]
+        [TestCase(10, 1)]
+        [TestCase(12, 2)]
+        [TestCase(19, 5)]
+        public void CharactersStrengthAffectsDamageAmmount(int strengthValue, int expectedDamage)
+        {
+            var attacker = new Character();
+            var defender = new Character();
+
+            attacker.Strength.Set(strengthValue);
+
+            const int alwaysHitRoll = 19;
+
+            Assert.LessOrEqual(expectedDamage, attacker.Attacks(defender.ArmorClass, alwaysHitRoll));
         }
     }
 }
