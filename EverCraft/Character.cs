@@ -28,11 +28,15 @@ namespace EverCraft
             Dexterity = new Ability();
             Constitution = new Ability();
             Charisma = new Ability();
+
+            Experience = 0;
+            Level = 1;
         }
 
         public const int DefaultArmorClass = 10;
         public const int DefaultHitPoints = 5;
         public const int DefaultDamage = 1;
+        public const int DefaultExperiencePointsPerHit = 10;
 
         public String Name { get; set; }
         public AlignmentTypes Alignment  { get; set; }
@@ -76,17 +80,37 @@ namespace EverCraft
 
         public int Attacks(int armorClass, int roll)
         {
+            var damageAmmount = 0;
+
             if (roll == 20)
             {
-                return GetCriticalDamageAmount(DefaultDamage, Strength.GetModifier());
+                damageAmmount = GetCriticalDamageAmount(DefaultDamage, Strength.GetModifier());
             }
-
-            if (GetModifiedRoll(roll, Strength.GetModifier()) >= armorClass)
+            else if (GetModifiedRoll(roll, Level, Strength.GetModifier()) >= armorClass)
             {
-                return GetDamageAmount(DefaultDamage, Strength.GetModifier());
+                damageAmmount = GetDamageAmount(DefaultDamage, Strength.GetModifier());
             }
 
-            return 0;
+            if (damageAmmount > 0)
+            {
+                AddExperiencePoints();
+            }
+
+            return damageAmmount;
+        }
+
+        private void AddExperiencePoints()
+        {
+            Experience += DefaultExperiencePointsPerHit;
+
+            int level = Experience/1000;
+            level = (int) Math.Round((double) level, 0) + 1;
+
+            if (Level != level)
+            {
+                HitPoints = HitPoints + 5 + Constitution.GetModifier();
+                Level = level;
+            }
         }
 
         private static int GetDamageAmount(int defaultDamage, int strengthModifier)
@@ -97,9 +121,12 @@ namespace EverCraft
             return potentialDamage;
         }
 
-        private static int GetModifiedRoll(int roll, int strengthModifier)
+        private static int GetModifiedRoll(int roll, int level, int strengthModifier)
         {
-            return roll + strengthModifier;
+            
+            int levelDiv = level/2;
+            var levelRounded = (int) Math.Round((double) levelDiv, 0);
+            return roll + strengthModifier + levelRounded;
         }
 
         private static int GetCriticalDamageAmount(int defaultDamage, int strengthModifier)
@@ -123,6 +150,7 @@ namespace EverCraft
         public Ability Dexterity { get; set; }
         public Ability Constitution { get; set; }
         public Ability Charisma { get; set; }
-
+        public int Experience { get; set; }
+        public int Level { get; set; }
     }
 }

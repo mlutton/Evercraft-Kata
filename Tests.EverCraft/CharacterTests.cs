@@ -202,5 +202,69 @@ namespace Tests.EverCraft
 
             Assert.AreEqual(expectedDefaultHitPoints, defender.HitPoints);
         }
+
+        [Test]
+        public void AttackerDefaultExperienceTo0()
+        {
+            var attacker = new Character();
+
+            Assert.AreEqual(0, attacker.Experience);
+        }
+
+        [Test]
+        public void WhenAttackerHitsExperienceIncreasesByDefaultExperiencePoints()
+        {
+            var attacker = new Character();
+
+            attacker.Attacks(10, 10);
+
+            Assert.AreEqual(Character.DefaultExperiencePointsPerHit, attacker.Experience);
+        }
+
+        [Test]
+        public void CharacterDefaultsToLevel1()
+        {
+            var attacker = new Character();
+
+            Assert.AreEqual(1, attacker.Level);
+        }
+
+        [TestCase(999, 2)]
+        [TestCase(1999, 3)]
+        public void WhenExperienceJumpTo1000ALevelIsAdded(int currentExperienceBeforeHit, int expectedLevelAfterHit)
+        {
+            var attacker = new Character();
+
+            attacker.Experience = currentExperienceBeforeHit;
+            attacker.Attacks(10, 10);
+
+            Assert.AreEqual(expectedLevelAfterHit, attacker.Level);
+        }
+
+        [TestCase(2, 10)]
+        [TestCase(2, 9)]
+        [TestCase(4, 8)]
+        [TestCase(6, 7)]
+        public void LevelModifierIsAppliedToNonCriticalRolls(int currentLevel, int roll)
+        {
+            var attacker = new Character();
+
+            attacker.Level = currentLevel;
+            
+            Assert.GreaterOrEqual( attacker.Attacks(10, roll), 0);
+        }
+
+        [TestCase(2, 1)]
+        [TestCase(2, 8)]
+        [TestCase(4, 7)]
+        [TestCase(6, 6)]
+        public void LevelModifierAppliedStillShouldResultInMisses(int currentLevel, int roll)
+        {
+            var attacker = new Character();
+
+            attacker.Level = currentLevel;
+
+            Assert.AreEqual(attacker.Attacks(10, roll), 0);
+        }
     }
 }
