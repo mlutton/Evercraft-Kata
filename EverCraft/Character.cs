@@ -10,16 +10,6 @@ namespace EverCraft
         Evil
     }
 
-    public enum AbilityTypes
-    {
-        Strength,
-        Wisdom,
-        Intelligence,
-        Dexterity,
-        Constitution,
-        Charisma
-    }
-
     public class InvalidAbilityException : ApplicationException
     {
         
@@ -27,19 +17,22 @@ namespace EverCraft
 
     public class Character
     {
-        Dictionary<AbilityTypes, int> _abilities = new Dictionary<AbilityTypes, int>(); 
-
         public Character()
         {
             ArmorClass = DefaultArmorClass;
             HitPoints = DefaultHitPoints;
+            
+            Strength = new Ability();
+            Wisdom = new Ability();
+            Intelligence = new Ability();
+            Dexterity = new Ability();
+            Constitution = new Ability();
+            Charisma = new Ability();
         }
 
         public const int DefaultArmorClass = 10;
         public const int DefaultHitPoints = 5;
         public const int DefaultDamage = 1;
-        public const int AbilityMinimumValue = 1;        
-        public const int AbilityMaximumValue = 20;
 
         public String Name { get; set; }
         public AlignmentTypes Alignment  { get; set; }
@@ -66,25 +59,12 @@ namespace EverCraft
             return true;
         }
 
-        public void SetAbility(AbilityTypes abilityType, int abilityValue)
-        {
-            if (abilityValue < AbilityMinimumValue)
-                throw new InvalidAbilityException();
+        public Ability Strength { get; set; }
+        public Ability Wisdom { get; set; }
+        public Ability Intelligence { get; set; }
+        public Ability Dexterity { get; set; }
+        public Ability Constitution { get; set; }
+        public Ability Charisma { get; set; }
 
-            if (abilityValue > AbilityMaximumValue)
-                throw new InvalidAbilityException();
-
-            if (_abilities.ContainsKey(abilityType))
-            {
-                _abilities.Remove(abilityType);
-            }
-
-            _abilities.Add(abilityType, abilityValue);
-        }
-
-        public int GetAbility(AbilityTypes abilityType)
-        {
-            return _abilities[abilityType];
-        }
     }
 }
